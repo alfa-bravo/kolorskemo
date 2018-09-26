@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h3>Choose a color...</h3>
     <ul>
       <li><input type="color" value="#ffffff"></li>
       <li><input type="color" value="#ffffff"></li>
