@@ -7,7 +7,6 @@
       <li><input type="color" value="#ffffff"></li>
       <li><input type="color" value="#ffffff"></li>
       <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
     </ul>
     <!--
     <p>
