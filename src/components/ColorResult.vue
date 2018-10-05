@@ -1,17 +1,23 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h3>{{ scheme }}</h3>
     <ul>
-      <li><input type="file"></li>
+      <li><input type="color" value="#ffffff"></li>
+      <li><input type="color" value="#ffffff"></li>
+      <li><input type="color" value="#ffffff"></li>
+      <li><input type="color" value="#ffffff"></li>
+      <li><input type="color" value="#ffffff"></li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FileSelection',
+  name: 'ColorResult',
   props: {
-    msg: String
+    msg: String,
+    scheme: String
   }
 }
 </script>

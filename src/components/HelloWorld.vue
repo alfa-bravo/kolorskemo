@@ -1,13 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <ul>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-    </ul>
+    
     <!--
     <p>
       For guide and recipes on how to configure / customize this project,<br>
