@@ -1,4 +1,4 @@
-# kolorskemo-vue-setup
+# kolorskemo
 
 This is the basic implentation of the Vue Framework with Bootstrap. We used Vue CLI implentation for setup. Instructions here: [Vue CLI 3](https://cli.vuejs.org/)
 
