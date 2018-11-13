@@ -14,10 +14,12 @@
         <p><button class="btn btn-md btn-primary" @click="setColorSelect()">{{ process }}</button></p>
       </div>
     </div>
+    <posts/>
   </div>
 </template>
 
 <script>
+import posts from './components/Posts.vue'
 import ColorResult from './components/ColorResult.vue'
 import ColorSelection from './components/ColorSelection.vue'
 import AppHeader from './components/AppHeader.vue'
@@ -45,7 +47,8 @@ export default {
   components: {
     ColorResult,
     ColorSelection,
-    AppHeader
+    AppHeader,
+    posts
   }
 }
 </script>

@@ -8,9 +8,9 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.post('/', (req, res) => {
-	
-})
+// app.post('/', (req, res) => {
+// 	
+// })
 
 app.get('/posts', (req, res) => {
   res.send(
