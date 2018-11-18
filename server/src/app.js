@@ -43,9 +43,13 @@ app.get('/model', (req, res) => {
             console.log('stderr: ' + stderr);
             console.log('error: ' + error);
 
-            if(stdout !== null){
-                res.send({name_color: stdout.replace('\n',"")})
-            }}
+            if(stdout !== null) {
+                var output = stdout.replace('\n',"").replace('[',"").replace(']',"").replace(/'/g,"");
+                output = output.split(", ");
+                console.log(output)
+                res.send({name_color: output});
+            }
+        }
     );
 })
 

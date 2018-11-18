@@ -20,12 +20,18 @@
       <li><input type="color" value="#ffffff"></li>
       <li><input type="color" value="#ffffff"></li>
     </ul>
+    <div v-for="name_color in model">
+      <div v-for="name in name_color">
+        <p>{{ name }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import 'util'
 import 'util.promisify'
+import ModelService from '@/services/ModelService'
 
 export default {
   name: 'ColorSelection',
@@ -33,8 +39,12 @@ export default {
     return {
       uploadImage: false,
       image: false,
-      testData: ''
+      testData: '',
+      model: false
     }
+  },
+  mounted () {
+    this.getModel()
   },
   methods: {
     fileChanged: function(e) {
@@ -67,6 +77,10 @@ export default {
     },
     removeImage: function () {
       this.image = false;
+    },
+    async getModel () {
+      const response = await ModelService.fetchModel()
+      this.model = response.data
     }
   },
   props: {
