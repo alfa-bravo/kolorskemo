@@ -10,6 +10,7 @@
     <div v-else>
       <img :src="image" height="300px"/>
       <p><button @click="removeImage">Remove image</button></p>
+      <p><button @click="processImage">Process image</button></p>
       <p>{{ testData }}</p>
     </div>
     <h4>...or set the Colors Directly: </h4 >
@@ -32,6 +33,7 @@
 import 'util'
 import 'util.promisify'
 import ModelService from '@/services/ModelService'
+import ColorsService from '@/services/ColorsService'
 
 export default {
   name: 'ColorSelection',
@@ -40,11 +42,13 @@ export default {
       uploadImage: false,
       image: false,
       testData: '',
-      model: false
+      model: false,
+      colors: false
     }
   },
   mounted () {
-    this.getModel()
+    this.getModel(),
+    this.processImage()
   },
   methods: {
     fileChanged: function(e) {
@@ -72,6 +76,7 @@ export default {
 
       reader.onload = (e) => {
         vm.image = e.target.result;
+
       };
       reader.readAsDataURL(file);
     },
@@ -81,6 +86,12 @@ export default {
     async getModel () {
       const response = await ModelService.fetchModel()
       this.model = response.data
+    },
+    async processImage () {
+      await ColorsService.addImage({
+        image: this.image
+      })
+      this.$router.push({ name: 'Colors' })
     }
   },
   props: {
