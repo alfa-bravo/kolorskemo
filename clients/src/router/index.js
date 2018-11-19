@@ -27,7 +27,7 @@ export default new Router({
     {
       path: '/model',
       name: 'Model',
-      component: ColorSelection
+      component: ColorResult
     },
     {
       path: '/colors',

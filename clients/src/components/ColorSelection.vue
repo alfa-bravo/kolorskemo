@@ -30,7 +30,6 @@
 <script>
 import 'util'
 import 'util.promisify'
-import ModelService from '@/services/ModelService'
 import ColorsService from '@/services/ColorsService'
 
 export default {
@@ -40,14 +39,12 @@ export default {
       uploadImage: false,
       image: false,
       testData: '',
-      model: false,
       colors: false,
       colorString: '',
-      color_arr: [0xFFFF00, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF]
+      color_arr: ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]
     }
   },
   mounted () {
-    this.getModel(),
     this.processImage()
   },
   methods: {
@@ -92,10 +89,6 @@ export default {
       n = Math.max(0,Math.min(n,255));
       return "0123456789ABCDEF".charAt((n-n%16)/16)
           + "0123456789ABCDEF".charAt(n%16);
-    },
-    async getModel () {
-      const response = await ModelService.fetchModel();
-      this.model = response.data;
     },
     async processImage () {
       await ColorsService.addImage({

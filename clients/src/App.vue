@@ -14,7 +14,10 @@
         <p><button class="btn btn-md btn-primary" @click="setColorSelect()">{{ process }}</button></p>
       </div>
     </div>
-    <posts/>
+    <!--
+      Not Used, this was the example from the tutorial
+      <posts/>
+    -->
   </div>
 </template>
 
