@@ -15,19 +15,15 @@
     </div>
     <h4>...or set the Colors Directly: </h4 >
     <ul>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
-      <li><input type="color" value="#ffffff"></li>
+      <li v-for="color in color_arr"><input type="color" :value="color"> {{ color }}</li>
     </ul>
     <!-- Needs to be moved to Color Results -->
     <!--<div v-for="name_color in model">
       <div v-for="name in name_color">
         <p>{{ name }}</p>
       </div>
-    </div>-->
     <p>{{ colorString }}</p>
+    </div>-->
   </div>
 </template>
 
@@ -46,7 +42,8 @@ export default {
       testData: '',
       model: false,
       colors: false,
-      colorString: ''
+      colorString: '',
+      color_arr: [0xFFFF00, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF]
     }
   },
   mounted () {
@@ -86,6 +83,16 @@ export default {
     removeImage: function () {
       this.image = false;
     },
+    rgbToHex: function (R,G,B) {
+      return this.toHex(R) + this.toHex(G) + this.toHex(B);
+    },
+    toHex: function (n) {
+      n = Math.floor(n * 256)
+      if (isNaN(n)) return 0xFFFFFF;
+      n = Math.max(0,Math.min(n,255));
+      return "0123456789ABCDEF".charAt((n-n%16)/16)
+          + "0123456789ABCDEF".charAt(n%16);
+    },
     async getModel () {
       const response = await ModelService.fetchModel();
       this.model = response.data;
@@ -99,8 +106,20 @@ export default {
       //this.$router.push({ path: '/colors' }); 
 
       const response = await ColorsService.fetchColors();
+      const color_data = response.data;
 
-      this.colorString = response.data;
+      const raw_arr = color_data.color_query.colors;
+      this.color_arr = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+
+      for(var i = 0; i < raw_arr.length; i++) {
+        var red = raw_arr[i][0];
+        var green = raw_arr[i][1];
+        var blue = raw_arr[i][2];
+
+        this.color_arr[i] = '#' + this.rgbToHex(red, green, blue).toString(16);
+      }
+
+      this.colorString = raw_arr;
     }
   },
   props: {
