@@ -21,11 +21,13 @@
       <li><input type="color" value="#ffffff"></li>
       <li><input type="color" value="#ffffff"></li>
     </ul>
-    <div v-for="name_color in model">
+    <!-- Needs to be moved to Color Results -->
+    <!--<div v-for="name_color in model">
       <div v-for="name in name_color">
         <p>{{ name }}</p>
       </div>
-    </div>
+    </div>-->
+    <p>{{ colorString }}</p>
   </div>
 </template>
 
@@ -43,7 +45,8 @@ export default {
       image: false,
       testData: '',
       model: false,
-      colors: false
+      colors: false,
+      colorString: ''
     }
   },
   mounted () {
@@ -84,14 +87,20 @@ export default {
       this.image = false;
     },
     async getModel () {
-      const response = await ModelService.fetchModel()
-      this.model = response.data
+      const response = await ModelService.fetchModel();
+      this.model = response.data;
     },
     async processImage () {
       await ColorsService.addImage({
         image: this.image
-      })
-      this.$router.push({ name: 'Colors' })
+      });
+
+      // This line isn't 
+      //this.$router.push({ path: '/colors' }); 
+
+      const response = await ColorsService.fetchColors();
+
+      this.colorString = response.data;
     }
   },
   props: {

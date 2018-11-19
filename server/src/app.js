@@ -54,29 +54,40 @@ app.post('/colors', (req, res) => {
     base64Img = base64Img.split(';base64,').pop();
 
     fs.writeFile('image.png', base64Img, {encoding: 'base64'}, function(err) {
-        console.log('File created!');
+        console.log('File created!\n');
     });
-
-    const exec = util.promisify(require('child_process').exec);
-    (async () => {
-        const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png');
-        console.log(JSON.parse(stdout));
-    })()
 
     res.send({
         success: true,
-        message: 'Image saved successfully!'
+        message: 'Image saved successfully!\n'
     });
   } else {
     res.send({
         success: false,
-        message: 'No Image Yet!'
+        message: 'No Image Yet!\n'
     });
   }
 })
 
 app.get('/colors', (req, res) => {
-  res.send({test_colors: "testing"});
+  var color_query = [];
+  const exec = util.promisify(require('child_process').exec);
+  (async () => {
+      const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png');
+      color_query = JSON.parse(stdout);
+      console.log(color_query);
+      res.send({ color_query });
+
+      if (color_query === undefined || color_query.length == 0) {  
+        // Clear Image after processing
+        fs.unlink('image.png', (err) => {
+          if (err) throw err;
+          console.log('Temp image was deleted');
+        });
+
+        color_query = []; // Clear data after processing.
+      }
+  })();
 })
 
 app.listen(process.env.PORT || 8081)
