@@ -1,30 +1,26 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h4>Upload an Image</h4>
-    <div v-if="!image">
-      <form action="POST">
-        <input type="file" @change="fileChanged">
-      </form>
-    </div>
-    <div v-else>
-      <img :src="image" height="300px"/>
-      <p><button @click="removeImage">Remove image</button></p>
-      <p><button @click="processImage">Process image</button></p>
-      <p>{{ testData }}</p>
-    </div>
-    <h4>...or set the Colors Directly: </h4 >
-    <ul>
-      <li v-for="color in color_arr"><input type="color" :value="color"> {{ color }}</li>
-    </ul>
-    <!-- Needs to be moved to Color Results -->
-    <!--<div v-for="name_color in model">
-      <div v-for="name in name_color">
-        <p>{{ name }}</p>
+
+    <div class="container">
+      <div class="row no-gutters">
+        <div class="col color_col" style="background-color: blue">
+
+        </div>
+        <div class="col color_col" style="background-color: aqua">
+
+        </div>
       </div>
-    <p>{{ colorString }}</p>
-    </div>-->
-  </div>
+      <div class="row no-gutters">
+        <div class="col img_btn">
+          <button id="remove_color_btn"  class="btn btn-outline-danger">Remove Color</button>
+
+          <button id="add_color_btn"  class="btn btn-outline-success">Add Color</button>
+
+        </div>
+    </div>
+
+    </div>
+
+
 </template>
 
 <script>
@@ -41,7 +37,7 @@ export default {
       testData: '',
       colors: false,
       colorString: '',
-      color_arr: ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]
+      color_arr: []
     }
   },
   mounted () {
@@ -102,7 +98,7 @@ export default {
       const color_data = response.data;
 
       const raw_arr = color_data.color_query.colors;
-      this.color_arr = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+      this.color_arr = [];
 
       for(var i = 0; i < raw_arr.length; i++) {
         var red = raw_arr[i][0];
@@ -137,4 +133,16 @@ li {
 a {
   color: #42b983;
 }
+.color_col{
+  height: 200px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 200px;
+  font-weight: bold;
+  font-size: 22px;
+}
+  .row{
+    width: 1200px;
+    margin-bottom: 20px;
+  }
 </style>
