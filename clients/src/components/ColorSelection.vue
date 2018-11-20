@@ -1,22 +1,55 @@
 <template>
 
     <div class="container">
-      <div class="row no-gutters">
-        <div class="col color_col" style="background-color: blue">
+        <div v-if="color_count==0 || color_count>5" class="row no-gutters">
+            <div class="col">
+                <label>
+                    Number of color:
+                    <input id="color_number_input" type="text" placeholder=color_count>
+                </label>
+            </div>
+            <div class="row no-gutters">
+                <div class="col">
+
+                    <button id="add_color_btn" @click="addColor" class="btn btn-outline-success">Add Color</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div v-else>
+            <div v-if="color_arr.length!=0">
+                <div  class="row no-gutters">
+                    <div v-for="(color, index) in color_arr" class="col color_col">
+
+                        <input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">
+
+                    </div>
+
+                </div>
+                <div  class="row no-gutters">
+                    <div v-for="(color, index) in color_arr" class="col color_hex">
+
+                        <p>{{color}}</p>
+
+                    </div>
+                </div>
+                <div  class="row no-gutters">
+                    <div class="col">
+                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Process Color</button>
+                    </div>
+                </div>
+
+                <div v-if="processing" >
+
+                    <h3>Generated Name: {{ scheme_name }}</h3>
+                </div>
+
+            </div>
+
 
         </div>
-        <div class="col color_col" style="background-color: aqua">
 
-        </div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col img_btn">
-          <button id="remove_color_btn"  class="btn btn-outline-danger">Remove Color</button>
-
-          <button id="add_color_btn"  class="btn btn-outline-success">Add Color</button>
-
-        </div>
-    </div>
 
     </div>
 
@@ -24,125 +57,106 @@
 </template>
 
 <script>
-import 'util'
-import 'util.promisify'
-import ColorsService from '@/services/ColorsService'
+    import ModelService from '@/services/ModelService'
 
-export default {
-  name: 'ColorSelection',
-  data () {
-    return {
-      uploadImage: false,
-      image: false,
-      testData: '',
-      colors: false,
-      colorString: '',
-      color_arr: []
+    export default {
+        name: 'ColorSelection',
+        data() {
+            return {
+                processing:false,
+                color_arr: [],
+                color_count: 0,
+                scheme_name: "",
+                model: []
+            }
+        },
+        methods: {
+            addColor: function () {
+                this.color_count = document.getElementById("color_number_input").value
+                for (var i = 0; i < this.color_count; i++) {
+                    this.color_arr[i] = '#000000'
+                }
+            },
+            processColor: function(){
+                this.processing = true;
+            },
+            async getModel () {
+                const response = await ModelService.fetchModel();
+                this.model = response.data;
+
+                var name_arr = this.model.name_color;
+                for(var i = 0; i < name_arr.length; i++) {
+                    this.scheme_name = this.scheme_name + name_arr[i];
+                }
+            }
+        },
+        props: {
+            msg: String
+        },
+        mounted () {
+            this.getModel();
+        }
     }
-  },
-  mounted () {
-    this.processImage()
-  },
-  methods: {
-    fileChanged: function(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-      this.createImage(files[0]);
-    },
-    createImage(file) {
-      // this.image = "./img/demo.193495c6.png";
-      this.image = new Image();
 
-      // const util = require('util');
-      // require('util.promisify').shim();
-      // const process = require('child_process');
-      // const exec = util.promisify(process.exec());
 
-      // (async () => {
-      //   const {stdout, stderr} = await exec('ek --number-of-colors 5 ./img/demo.193495c6.png');
-      //   this.testData = JSON.parse(stdout);
-      // })()
-
-      var reader = new FileReader();
-      var vm = this;
-
-      reader.onload = (e) => {
-        vm.image = e.target.result;
-
-      };
-      reader.readAsDataURL(file);
-    },
-    removeImage: function () {
-      this.image = false;
-    },
-    rgbToHex: function (R,G,B) {
-      return this.toHex(R) + this.toHex(G) + this.toHex(B);
-    },
-    toHex: function (n) {
-      n = Math.floor(n * 256)
-      if (isNaN(n)) return 0xFFFFFF;
-      n = Math.max(0,Math.min(n,255));
-      return "0123456789ABCDEF".charAt((n-n%16)/16)
-          + "0123456789ABCDEF".charAt(n%16);
-    },
-    async processImage () {
-      await ColorsService.addImage({
-        image: this.image
-      });
-
-      // This line isn't 
-      //this.$router.push({ path: '/colors' }); 
-
-      const response = await ColorsService.fetchColors();
-      const color_data = response.data;
-
-      const raw_arr = color_data.color_query.colors;
-      this.color_arr = [];
-
-      for(var i = 0; i < raw_arr.length; i++) {
-        var red = raw_arr[i][0];
-        var green = raw_arr[i][1];
-        var blue = raw_arr[i][2];
-
-        this.color_arr[i] = '#' + this.rgbToHex(red, green, blue).toString(16);
-      }
-
-      this.colorString = raw_arr;
-    }
-  },
-  props: {
-    msg: String
-  }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.color_col{
-  height: 200px;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 200px;
-  font-weight: bold;
-  font-size: 22px;
-}
-  .row{
-    width: 1200px;
-    margin-bottom: 20px;
-  }
+    h3 {
+        margin: 40px 0 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+
+    a {
+        color: #42b983;
+    }
+
+    .color_col {
+        height: 200px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 200px;
+        font-weight: bold;
+        font-size: 22px;
+    }
+
+    .row {
+        width: 1200px;
+        margin-bottom: 20px;
+    }
+
+    .img_btn button {
+        margin: 10px;
+    }
+
+    .color_picker {
+        height: inherit;
+        width: inherit;
+        border: none;
+    }
+
+    label {
+        font-size: 22px;
+
+    }
+
+    #color_number_input {
+        width: 250px;
+        height: 40px;
+        padding-left: 10px;
+        font-size: 22px;
+    }
+    .color_hex{
+        height: 100px;
+    }
 </style>

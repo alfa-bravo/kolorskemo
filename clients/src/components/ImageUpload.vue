@@ -19,7 +19,6 @@
                 </div>
             </div>
 
-            <p>{{ testData }}</p>
         </div>
 
         <div v-if="colorString!=''">
@@ -57,7 +56,8 @@
             }
         },
         mounted () {
-            this.processImage()
+            this.processImage();
+            this.getModel();
         },
         methods: {
             setColorSelect: function() {
@@ -150,9 +150,7 @@
             msg: String,
             scheme: String
         },
-        mounted () {
-            this.getModel()
-        }
+
 
     }
 </script>
