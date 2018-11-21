@@ -9,28 +9,30 @@
         </div>
         <div v-else>
             <img :src="image" height="300px"/>
-            <div class="container">
-                <div class="row no-gutters">
-                    <div class="col img_btn">
-                        <button id="remove_btn" @click="removeImage" class="btn btn-outline-danger">Remove image</button>
-
-                        <button id="process_btn" @click="processImage" class="btn btn-outline-success">Process image</button>
-                    </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image</button>
                 </div>
+                <div class="col-md-3">
+                    <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image</button>
+                </div>
+                <div class="col-md-3"></div>
             </div>
-
-            <p>{{ testData }}</p>
         </div>
-
+        <div v-if="loading == true">
+            <img alt="loading..." src="@/assets/loading.gif">
+        </div>
+        <div v-else>
+            <p></p>
+        </div>
         <div v-if="colorString!=''">
+            <h3>Scheme Name: {{ scheme_name }}</h3>
+
             <div class="row no-gutters" id="pallet">
                 <div v-for="color in color_arr" :style="'background-color:'+ color"  class="col color_col">{{color}}</div>
             </div>
-
-            <h3>Generated Name: {{ scheme_name }}</h3>
         </div>
-
-
     </div>
 </template>
 
@@ -53,11 +55,13 @@
                 colorSelect: true,
                 process: 'Process',
                 scheme_name: "",
-                model: []
+                model: [],
+                loading: false
             }
         },
         mounted () {
-            this.processImage()
+            this.processImage();
+            this.getModel();
         },
         methods: {
             setColorSelect: function() {
@@ -110,8 +114,17 @@
                 return "0123456789ABCDEF".charAt((n-n%16)/16)
                     + "0123456789ABCDEF".charAt(n%16);
             },
+            handler: function() {
+                var scrollingElement = (document.scrollingElement || document.body);
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+
+                this.loading = true;
+                this.processImage();
+            },
             async processImage () {
-                this.isProcessClicked = true
+                //this.loading = true;
+
+                this.isProcessClicked = true;
                 await ColorsService.addImage({
                     image: this.image
                 });
@@ -135,6 +148,7 @@
 
                 this.colorString = raw_arr;
 
+                this.loading = false;
             },
             async getModel () {
                 const response = await ModelService.fetchModel();
@@ -142,7 +156,7 @@
 
                 var name_arr = this.model.name_color;
                 for(var i = 0; i < name_arr.length; i++) {
-                    this.scheme_name = this.scheme_name + name_arr[i];
+                    this.scheme_name = this.scheme_name + " " + name_arr[i];
                 }
             }
         },
@@ -150,9 +164,7 @@
             msg: String,
             scheme: String
         },
-        mounted () {
-            this.getModel()
-        }
+
 
     }
 </script>

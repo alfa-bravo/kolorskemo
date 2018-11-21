@@ -6,15 +6,13 @@
         <h1>Welcome to Kolorskemo</h1>
         <img alt="Kolorskemo logo" src="./assets/Kolorskemo-Logo-1.png" width="200" height="200">
         <div v-if="!select" msg="Choice selection">
-            <p>Choice selection</p>
+            <p>Set Up Your Color Palette</p>
             <div class="row">
                 <div class="col-6">
-                    <p>Upload Image</p>
-                    <button id = "upload_btn" type="button" class="btn btn-outline-primary" @click="uploadImg">Upload Image</button>
+                    <button id = "upload_btn" type="button" class="btn btn-outline-primary" @click="uploadImg">Upload an Image</button>
                 </div>
                 <div class="col-6">
-                    <p>Build your colors pallets</p>
-                    <button id = "colors_btn" type="button" class="btn btn-outline-primary" @click="colorchoosing">Choose colors</button>
+                    <button id = "colors_btn" type="button" class="btn btn-outline-primary" @click="colorchoosing">Manually Choose colors</button>
                 </div>
             </div>
         </div>
@@ -99,6 +97,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
