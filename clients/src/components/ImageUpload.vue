@@ -9,27 +9,24 @@
         </div>
         <div v-else>
             <img :src="image" height="300px"/>
-            <div class="container">
-                <div class="row no-gutters">
-                    <div class="col img_btn">
-                        <button id="remove_btn" @click="removeImage" class="btn btn-outline-danger">Remove image</button>
-
-                        <button id="process_btn" @click="processImage" class="btn btn-outline-success">Process image</button>
-                    </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image</button>
                 </div>
+                <div class="col-md-3">
+                    <button id="process_btn" @click="processImage" class="btn img_btn btn-outline-success">Process image</button>
+                </div>
+                <div class="col-md-3"></div>
             </div>
-
         </div>
-
         <div v-if="colorString!=''">
+            <h3>Scheme Name: {{ scheme_name }}</h3>
+
             <div class="row no-gutters" id="pallet">
                 <div v-for="color in color_arr" :style="'background-color:'+ color"  class="col color_col">{{color}}</div>
             </div>
-
-            <h3>Generated Name: {{ scheme_name }}</h3>
         </div>
-
-
     </div>
 </template>
 
@@ -142,7 +139,7 @@
 
                 var name_arr = this.model.name_color;
                 for(var i = 0; i < name_arr.length; i++) {
-                    this.scheme_name = this.scheme_name + name_arr[i];
+                    this.scheme_name = this.scheme_name + " " + name_arr[i];
                 }
             }
         },

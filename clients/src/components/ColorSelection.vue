@@ -5,7 +5,7 @@
             <div class="col">
                 <label>
                     Number of color:
-                    <input id="color_number_input" type="text" placeholder=color_count>
+                    <input id="color_number_input" type="text" placeholder="1 to 5">
                 </label>
             </div>
             <div class="row no-gutters">
