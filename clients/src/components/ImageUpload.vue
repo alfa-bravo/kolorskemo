@@ -15,10 +15,16 @@
                     <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image</button>
                 </div>
                 <div class="col-md-3">
-                    <button id="process_btn" @click="processImage" class="btn img_btn btn-outline-success">Process image</button>
+                    <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image</button>
                 </div>
                 <div class="col-md-3"></div>
             </div>
+        </div>
+        <div v-if="loading == true">
+            <img alt="loading..." src="@/assets/loading.gif">
+        </div>
+        <div v-else>
+            <p></p>
         </div>
         <div v-if="colorString!=''">
             <h3>Scheme Name: {{ scheme_name }}</h3>
@@ -49,7 +55,8 @@
                 colorSelect: true,
                 process: 'Process',
                 scheme_name: "",
-                model: []
+                model: [],
+                loading: false
             }
         },
         mounted () {
@@ -107,8 +114,17 @@
                 return "0123456789ABCDEF".charAt((n-n%16)/16)
                     + "0123456789ABCDEF".charAt(n%16);
             },
+            handler: function() {
+                var scrollingElement = (document.scrollingElement || document.body);
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+
+                this.loading = true;
+                this.processImage();
+            },
             async processImage () {
-                this.isProcessClicked = true
+                //this.loading = true;
+
+                this.isProcessClicked = true;
                 await ColorsService.addImage({
                     image: this.image
                 });
@@ -132,6 +148,7 @@
 
                 this.colorString = raw_arr;
 
+                this.loading = false;
             },
             async getModel () {
                 const response = await ModelService.fetchModel();
