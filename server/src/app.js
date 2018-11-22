@@ -7,8 +7,10 @@ const util = require('util');
 
 const app = express()
 app.use(morgan('combined'))
-app.use(bodyParser.json())
 app.use(cors())
+
+bodyParserOptions = { limit: "10MB" };
+app.use(bodyParser.json(bodyParserOptions))
 
 app.get('/posts', (req, res) => {
   res.send(

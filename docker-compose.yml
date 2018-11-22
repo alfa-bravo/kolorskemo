@@ -1,15 +1,19 @@
 version: '3'
 
 services:
+    kolorskemo-client:
+        build: ./client
+        volumes:
+            - ./client-dist:/app/client/build-out
+    kolorskemo-server:
+        build: ./server
     nginx:
         image: nginx:mainline-alpine
-        
-    client:
-        build: ./client
+        volumes:
+            # TODO: build the nginx configuration into the image
+            - ./nginx-dev/nginx-dev.conf:/etc/nginx/nginx.conf:ro
+            - ./client-dist:/usr/share/nginx/html:ro
+            - ./log/nginx-dev:/var/log/nginx
         ports:
-            - 8080:8080
-    server:
-        build: ./server
-        ports:
-            - 8081:8081
-
+            - "8080:8080"
+        restart: unless-stopped
