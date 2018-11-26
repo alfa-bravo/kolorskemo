@@ -12,10 +12,12 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image</button>
+                    <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image
+                    </button>
                 </div>
                 <div class="col-md-3">
-                    <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image</button>
+                    <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image
+                    </button>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -26,13 +28,21 @@
         <div v-else>
             <p></p>
         </div>
-        <div v-if="colorString!=''">
-            <h3>Scheme Name: {{ scheme_name }}</h3>
+        <div v-if="colorString !=''">
+            <!--<h3>Scheme Name: {{ scheme_name }}</h3>-->
 
             <div class="row no-gutters" id="pallet">
-                <div v-for="color in color_arr" :style="'background-color:'+ color"  class="col color_col">{{color}}</div>
+                <div v-for="color in color_arr" :style="'background-color:'+ color" class="col color_col">{{color}}
+                </div>
+            </div>
+            <button id="scheme_btn" @click="getScheme" class="btn img_btn btn-outline-primary">Process</button>
+            <div v-if="scheme_name!=''">
+                <h3>Scheme Name: {{ scheme_name }}</h3>
+
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -41,10 +51,11 @@
     import 'util.promisify'
     import ColorsService from '@/services/ColorsService'
     import ModelService from '@/services/ModelService'
+    import SchemeService from '@/services/SchemeService'
 
     export default {
         name: 'ImageUpload',
-        data () {
+        data() {
             return {
                 uploadImage: false,
                 image: false,
@@ -56,23 +67,27 @@
                 process: 'Process',
                 scheme_name: "",
                 model: [],
-                loading: false
+                loading: false,
+
             }
         },
-        mounted () {
+        mounted() {
             this.processImage();
-            this.getModel();
+            //this.getSchemeName();
         },
         methods: {
-            setColorSelect: function() {
+            getScheme: function () {
+                this.getSchemeName();
+            },
+            setColorSelect: function () {
                 this.colorSelect = !this.colorSelect
-                if(this.colorSelect) {
+                if (this.colorSelect) {
                     this.process = 'Process'
                 } else {
                     this.process = 'Return'
                 }
             },
-            fileChanged: function(e) {
+            fileChanged: function (e) {
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
@@ -104,24 +119,25 @@
             removeImage: function () {
                 this.image = false;
             },
-            rgbToHex: function (R,G,B) {
+            rgbToHex: function (R, G, B) {
                 return this.toHex(R) + this.toHex(G) + this.toHex(B);
             },
             toHex: function (n) {
                 n = Math.floor(n * 256)
                 if (isNaN(n)) return 0xFFFFFF;
-                n = Math.max(0,Math.min(n,255));
-                return "0123456789ABCDEF".charAt((n-n%16)/16)
-                    + "0123456789ABCDEF".charAt(n%16);
+                n = Math.max(0, Math.min(n, 255));
+                return "0123456789ABCDEF".charAt((n - n % 16) / 16)
+                    + "0123456789ABCDEF".charAt(n % 16);
             },
-            handler: function() {
+            handler: function () {
                 var scrollingElement = (document.scrollingElement || document.body);
                 scrollingElement.scrollTop = scrollingElement.scrollHeight;
 
                 this.loading = true;
+                this.isProcessClicked = true;
                 this.processImage();
             },
-            async processImage () {
+            async processImage() {
                 //this.loading = true;
 
                 this.isProcessClicked = true;
@@ -138,26 +154,29 @@
                 const raw_arr = color_data.color_query.colors;
                 //this.color_arr = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
 
-                for(var i = 0; i < raw_arr.length; i++) {
+                for (var i = 0; i < raw_arr.length; i++) {
                     var red = raw_arr[i][0];
                     var green = raw_arr[i][1];
                     var blue = raw_arr[i][2];
 
                     this.color_arr[i] = '#' + this.rgbToHex(red, green, blue).toString(16);
+                    this.debug("this.color_arr[i] " + this.color_arr[i])
                 }
 
                 this.colorString = raw_arr;
 
                 this.loading = false;
             },
-            async getModel () {
-                const response = await ModelService.fetchModel();
-                this.model = response.data;
+            debug(e) {
+                console.log(e)
+            },
+            async getSchemeName() {
 
-                var name_arr = this.model.name_color;
-                for(var i = 0; i < name_arr.length; i++) {
-                    this.scheme_name = this.scheme_name + " " + name_arr[i];
-                }
+                this.debug("this.color_arr.length " + this.color_arr.length)
+
+                const response = await SchemeService.fetchScheme(this.color_arr);
+
+                this.scheme_name = response.data["predicted-name"];
             }
         },
         props: {
@@ -174,19 +193,22 @@
     h3 {
         margin: 40px 0 0;
     }
+
     ul {
         list-style-type: none;
         padding: 0;
     }
+
     li {
         display: inline-block;
         margin: 0 10px;
     }
+
     a {
         color: #42b983;
     }
 
-    #pallet .color_col{
+    #pallet .color_col {
         height: 200px;
         text-align: center;
         vertical-align: middle;
@@ -195,18 +217,19 @@
         font-size: 22px;
     }
 
-    .row{
+    .row {
         width: 1200px;
-        margin:auto;
+        margin: auto;
 
     }
-    .img_btn{
+
+    .img_btn {
         width: 200px;
         margin: 30px;
 
-
     }
-    #remove_btn{
+
+    #remove_btn {
         margin-right: 20px;
     }
 

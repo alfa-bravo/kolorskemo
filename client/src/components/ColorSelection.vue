@@ -21,34 +21,35 @@
 
         <div v-else>
             <div v-if="color_arr.length!=0">
-                <div  class="row no-gutters">
+                <div class="row no-gutters">
                     <div v-for="(color, index) in color_arr" class="col color_col">
 
-                       <!-- Removed Chromoselector -->
-                       <!--<input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">-->
+                        <!-- Removed Chromoselector -->
+                        <!--<input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">-->
 
-                       <input class="color_picker" v-model="color_arr[index]" :id="index" type="color" value="{color}">
+                        <input class="color_picker" v-model="color_arr[index]" :id="index" type="color" value="{color}">
 
 
                     </div>
 
                 </div>
-                <div  class="row no-gutters">
+                <div class="row no-gutters">
                     <div v-for="(color, index) in color_arr" class="col color_hex">
 
                         <p>{{color}}</p>
 
                     </div>
                 </div>
-                <div  class="row no-gutters">
+                <div class="row no-gutters">
                     <div class="col">
-                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Process Color</button>
+                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Process Color
+                        </button>
                     </div>
                 </div>
 
-                <div v-if="processing" >
+                <div v-if="processing">
 
-                    <h3>Generated Name: {{ scheme_name }}</h3>
+                    <h3 v-if="scheme_name!=''">Scheme Name: {{ scheme_name }}</h3>
                 </div>
 
             </div>
@@ -62,16 +63,14 @@
 
 </template>
 
-
-
 <script>
 
     import ModelService from '@/services/ModelService'
-
+    import SchemeService from '@/services/SchemeService'
     //import chromoselector from "chromoselector";
     //import colorpicker from "bootstrap-colorpicker";
     //import $ from 'jquery';
-    
+
     // Chromoselector isn't working right now.
     //import "chromoselector/src/chromoselector.css";
     //import "chromoselector/src/chromoselector.js";
@@ -86,7 +85,7 @@
         name: 'ColorSelection',
         data() {
             return {
-                processing:false,
+                processing: false,
                 color_arr: [],
                 color_count: 0,
                 scheme_name: "",
@@ -100,35 +99,45 @@
                     this.color_arr[i] = '#000000'
                 }
             },
-            processColor: function(){
+            processColor: function () {
                 this.processing = true;
+                this.getSchemeName();
             },
-            async getModel () {
-                const response = await ModelService.fetchModel();
-                this.model = response.data;
+            reset: function () {
+                this.processing = false;
+                this.color_arr = [];
+                this.color_count = 0;
+                this.scheme_name = "";
+                this.model = [];
+            },
+            debug(e) {
+                console.log(e)
+            },
+            async getSchemeName() {
+                this.debug("this.color_arr.length " + this.color_arr.length)
 
-                var name_arr = this.model.name_color;
-                for(var i = 0; i < name_arr.length; i++) {
-                    this.scheme_name = this.scheme_name + name_arr[i];
-                }
-            }
+                const response = await SchemeService.fetchScheme(this.color_arr);
+
+                this.scheme_name = response.data["predicted-name"];
+            },
 
             // Currently isn't working
-            // installColorPicker: function(){
-            //     $(".color_picker").chromoselector();
-            // }
+            /*installColorPicker: function(){
+                $(".color_picker").chromoselector();
+            }*/
         },
         props: {
             msg: String,
 
         },
-        mounted () {
-            this.getModel();
+        mounted() {
+            this.reset();
+            //this.getModel();
 
             // Currently isn't working
-            // this.$nextTick(function () {
-            //     this.installColorPicker();
-            // })
+            /*this.$nextTick(function () {
+                this.installColorPicker();
+            })*/
         }
     }
 
@@ -190,10 +199,12 @@
         padding-left: 10px;
         font-size: 22px;
     }
-    .color_hex{
+
+    .color_hex {
         height: 100px;
     }
-    chrome-picker{
+
+    chrome-picker {
         height: 100px;
         width: 200px;
     }
