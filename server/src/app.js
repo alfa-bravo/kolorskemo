@@ -125,14 +125,14 @@ app.get('/api/scheme', (req, res) => {
     var input = {};
     input["colors"] = colors;
 
-    var input_stdin = JSON.stringify(input).replace(" ", "").replace(/"/g, "\\\"");
+    var input_stdin = JSON.stringify(input).replace(" ", "").replace("\{","\\\{").replace(/"/g, "\\\"");
 
 
     exec = util.promisify(require('child_process').exec);
 
     (async () => {
 
-        const {stdout, stderr} = await exec('python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 <<< ' + input_stdin);
+        const {stdout, stderr} = await exec('echo '+ input_stdin+ ' | python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 ' );
 
         //color_query = JSON.parse(stdout);
         console.log(stdout);
