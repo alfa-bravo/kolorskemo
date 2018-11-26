@@ -24,7 +24,10 @@
                 <div  class="row no-gutters">
                     <div v-for="(color, index) in color_arr" class="col color_col">
 
-                       <input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">
+                       <!-- Removed Chromoselector -->
+                       <!--<input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">-->
+
+                       <input class="color_picker" v-model="color_arr[index]" :id="index" type="color" value="{color}">
 
 
                     </div>
