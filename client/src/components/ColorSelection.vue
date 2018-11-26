@@ -75,7 +75,7 @@
     //import "chromoselector/src/chromoselector.css";
     //import "chromoselector/src/chromoselector.js";
 
-    import $ from 'jquery';
+    //import $ from 'jquery';
 
     //import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
     //import 'bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js';
