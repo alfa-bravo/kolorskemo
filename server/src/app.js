@@ -101,17 +101,34 @@ app.get('/api/colors', (req, res) => {
   })();
 })
 
-//want: /scheme?color1:#000fff&color2:#111111&....
+//want: /scheme?color1:000fff&color2:111111&....
 
 app.get('/api/scheme', (req, res) => {
 
-    console.log(req.query)
+    var colors=[];
+
+    var count =0;
+    for (var key in req.query){
+
+        colors[count] = hex_to_rgb(req.query[key]);
+        count++;
+    }
+
+    for(var i in colors){
+        console.log(colors[i]);
+    }
+
+    var input = {};
+    input["colors"] = colors;
+
+    var input_stdin = JSON.stringify(input).replace(" ","").replace(/"/g,"\\\"");
+
 
      exec = util.promisify(require('child_process').exec);
 
     (async () => {
 
-        const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png | python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5');
+        const {stdout, stderr} = await exec('python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 <<< '+input_stdin);
 
         //color_query = JSON.parse(stdout);
         console.log(stdout);
@@ -122,4 +139,33 @@ app.get('/api/scheme', (req, res) => {
     })();
 })
 
-app.listen(process.env.PORT || 8081)
+app.listen(process.env.PORT || 8081);
+
+function hex_to_rgb (hex) {
+
+    if (hex.charAt(0) === '#') {
+        hex = hex.substr(1);
+    }
+
+    var values = hex.split(''),
+        r,
+        g,
+        b;
+
+    if (hex.length === 2) {
+        r = parseInt(values[0].toString() + values[1].toString(), 16) /255;
+        g = r;
+        b = r;
+    } else if (hex.length === 3) {
+        r = parseInt(values[0].toString() + values[0].toString(), 16) /255;
+        g = parseInt(values[1].toString() + values[1].toString(), 16) /255;
+        b = parseInt(values[2].toString() + values[2].toString(), 16) /255;
+    } else if (hex.length === 6) {
+        r = parseInt(values[0].toString() + values[1].toString(), 16) /255;
+        g = parseInt(values[2].toString() + values[3].toString(), 16) /255;
+        b = parseInt(values[4].toString() + values[5].toString(), 16) /255;
+    } else {
+        return false;
+    }
+    return [r, g, b];
+}
