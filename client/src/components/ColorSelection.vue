@@ -8,12 +8,14 @@
                     <input id="color_number_input" type="text" placeholder="1 to 5">
                 </label>
             </div>
+
             <div class="row no-gutters">
                 <div class="col">
 
                     <button id="add_color_btn" @click="addColor" class="btn btn-outline-success">Add Color</button>
 
                 </div>
+
             </div>
         </div>
 
@@ -22,7 +24,8 @@
                 <div  class="row no-gutters">
                     <div v-for="(color, index) in color_arr" class="col color_col">
 
-                        <input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">
+                       <input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">
+
 
                     </div>
 
@@ -56,8 +59,23 @@
 
 </template>
 
+
+
 <script>
+
     import ModelService from '@/services/ModelService'
+
+    //import chromoselector from "chromoselector";
+    //import colorpicker from "bootstrap-colorpicker";
+    //import $ from 'jquery';
+    import "chromoselector/src/chromoselector.css";
+    import "chromoselector/src/chromoselector.js";
+
+    import $ from 'jquery';
+
+    //import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
+    //import 'bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js';
+
 
     export default {
         name: 'ColorSelection',
@@ -88,14 +106,24 @@
                 for(var i = 0; i < name_arr.length; i++) {
                     this.scheme_name = this.scheme_name + name_arr[i];
                 }
+            },
+            installColorPicker: function(){
+                $(".color_picker").chromoselector();
             }
+
         },
         props: {
-            msg: String
+            msg: String,
+
         },
         mounted () {
             this.getModel();
+            this.$nextTick(function () {
+                this.installColorPicker();
+            })
+
         }
+
     }
 
 
@@ -158,5 +186,9 @@
     }
     .color_hex{
         height: 100px;
+    }
+    chrome-picker{
+        height: 100px;
+        width: 200px;
     }
 </style>
