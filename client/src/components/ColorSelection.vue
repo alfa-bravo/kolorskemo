@@ -68,8 +68,10 @@
     //import chromoselector from "chromoselector";
     //import colorpicker from "bootstrap-colorpicker";
     //import $ from 'jquery';
-    import "chromoselector/src/chromoselector.css";
-    import "chromoselector/src/chromoselector.js";
+    
+    // Chromoselector isn't working right now.
+    //import "chromoselector/src/chromoselector.css";
+    //import "chromoselector/src/chromoselector.js";
 
     import $ from 'jquery';
 
@@ -106,11 +108,12 @@
                 for(var i = 0; i < name_arr.length; i++) {
                     this.scheme_name = this.scheme_name + name_arr[i];
                 }
-            },
-            installColorPicker: function(){
-                $(".color_picker").chromoselector();
             }
 
+            // Currently isn't working
+            // installColorPicker: function(){
+            //     $(".color_picker").chromoselector();
+            // }
         },
         props: {
             msg: String,
@@ -118,12 +121,12 @@
         },
         mounted () {
             this.getModel();
-            this.$nextTick(function () {
-                this.installColorPicker();
-            })
 
+            // Currently isn't working
+            // this.$nextTick(function () {
+            //     this.installColorPicker();
+            // })
         }
-
     }
 
 
