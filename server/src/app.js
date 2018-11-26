@@ -79,13 +79,16 @@ app.get('/colors', (req, res) => {
 
       const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png');
 
+
       color_query = JSON.parse(stdout);
       console.log(color_query);
+
       res.send({ color_query });
 
       // Checking if an image has been processed
       if (color_query !== undefined && color_query.length != 0) {  
         // Clear Image after processing
+
         fs.unlink('image.png', (err) => {
           if (err) throw err;
           console.log('Temp image was deleted');
@@ -96,4 +99,24 @@ app.get('/colors', (req, res) => {
   })();
 })
 
+//want: /scheme?color1:#000fff&color2:#111111&....
+
+app.get('/scheme', (req, res) => {
+
+    console.log(req.query)
+
+     exec = util.promisify(require('child_process').exec);
+
+    (async () => {
+
+        const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png | python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5');
+
+        //color_query = JSON.parse(stdout);
+        console.log(stdout);
+
+        res.send(stdout);
+
+
+    })();
+})
 app.listen(process.env.PORT || 8081)
