@@ -11,12 +11,12 @@
             <img :src="image" height="300px"/>
             <div class="row">
 
-                    <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image
-                    </button>
+                <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image
+                </button>
 
 
-                    <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image
-                    </button>
+                <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image
+                </button>
 
 
             </div>
@@ -75,6 +75,19 @@
             //this.getSchemeName();
         },
         methods: {
+            reset: function () {
+                this.uploadImage= false;
+                this.image =  false;
+                this.testData = '';
+                this.colors= false;
+                this.colorString= '';
+                this.color_arr= [];
+                this.colorSelect= true;
+                this.process= 'Process';
+                this.scheme_name= "";
+                this.model= [];
+                this.loading= false;
+            },
             getScheme: function () {
                 this.getSchemeName();
             },
@@ -116,7 +129,7 @@
                 reader.readAsDataURL(file);
             },
             removeImage: function () {
-                this.image = false;
+                this.reset();
             },
             rgbToHex: function (R, G, B) {
                 return this.toHex(R) + this.toHex(G) + this.toHex(B);

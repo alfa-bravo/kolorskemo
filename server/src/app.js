@@ -80,7 +80,7 @@ app.get('/api/colors', (req, res) => {
     const exec = util.promisify(require('child_process').exec);
     (async () => {
 
-        const {stdout, stderr} = await exec('ek --number-of-colors 5 image.png');
+        const {stdout, stderr} = await exec('ek  image.png');
 
 
         color_query = JSON.parse(stdout);
