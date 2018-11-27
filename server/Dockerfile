@@ -5,5 +5,7 @@ COPY ./package*.json ./
 RUN npm install
 COPY . .
 RUN pip3 install ./contrib/ekstrakto
+# TODO: use pipenv Pipfile instead of requirements.txt?
+RUN pip3 install -r ./src/python_machine_learning/requirements.txt
 EXPOSE 8081
 CMD ["npm", "start"]
