@@ -3,7 +3,7 @@
         <h1>{{ msg }}</h1>
         <div v-if="!image">
             <form action="POST">
-                <input type="file" @change="fileChanged" id="file" class="inputfile">
+                <input type="file" @change="fileChanged" id="file" class="inputfile" accept="image/*">
                 <label for="file">Choose a file</label>
             </form>
         </div>
