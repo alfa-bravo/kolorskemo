@@ -42,7 +42,7 @@
                 </div>
                 <div class="row no-gutters">
                     <div class="col">
-                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Process Color
+                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Analyze
                         </button>
                     </div>
                 </div>

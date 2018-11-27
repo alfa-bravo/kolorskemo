@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid intro">
         <h1>What is Kolorskemo ?</h1>
-        <h2>Kolorskemo is a online web application that intergrate machine learning technique to help artists name their color palettes.</h2>
+        <h2>Kolorskemo is a online web application that intergrates machine learning technique to help artists name their color palettes.</h2>
         <div id="menu">
             <ul>
                 <li><a href="/">Get started</a></li>
