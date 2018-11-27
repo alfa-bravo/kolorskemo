@@ -10,16 +10,15 @@
         <div v-else>
             <img :src="image" height="300px"/>
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
+
                     <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image
                     </button>
-                </div>
-                <div class="col-md-3">
+
+
                     <button id="process_btn" @click="handler" class="btn img_btn btn-outline-success">Process image
                     </button>
-                </div>
-                <div class="col-md-3"></div>
+
+
             </div>
         </div>
         <div v-if="loading == true">
@@ -218,9 +217,12 @@
     }
 
     .row {
-        width: 1200px;
-        margin: auto;
+        width: auto;
+        margin: 0;
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .img_btn {

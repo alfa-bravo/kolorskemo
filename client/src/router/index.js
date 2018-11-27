@@ -5,6 +5,7 @@ import proxyMiddleware from 'http-proxy-middleware'
 import Hello from '@/components/HelloWorld'
 import Posts from '@/components/Posts'
 import ColorSelection from '@/components/ColorSelection'
+import Footer from '@/components/Footer'
 
 Vue.use(Router)
 
@@ -35,6 +36,12 @@ export default new Router({
       path: '/colors',
       name: 'Colors',
       component: ColorSelection
-    }
+    },
+      {
+          path: '/about',
+          name: 'About',
+          component: Footer
+      },
+
   ]
 })

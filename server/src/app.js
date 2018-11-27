@@ -128,7 +128,7 @@ app.get('/api/scheme', (req, res) => {
     var input_stdin = JSON.stringify(input).replace(" ", "").replace("\{","\\\{").replace(/"/g, "\\\"");
 
 
-    exec = util.promisify(require('child_process').exec);
+    const exec = util.promisify(require('child_process').exec);
 
     (async () => {
 

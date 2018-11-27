@@ -174,7 +174,7 @@
     }
 
     .row {
-        width: 1200px;
+        width: inherit;
         margin-bottom: 20px;
     }
 
@@ -189,16 +189,17 @@
     }
 
     label {
-        font-size: 22px;
+        font-size: 18px;
 
     }
 
     #color_number_input {
-        width: 250px;
+        width: 100px;
         height: 40px;
         padding-left: 10px;
         font-size: 22px;
     }
+
 
     .color_hex {
         height: 100px;
@@ -208,4 +209,5 @@
         height: 100px;
         width: 200px;
     }
+
 </style>
