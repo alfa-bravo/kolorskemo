@@ -35,8 +35,8 @@
                 </div>
             </div>
             <button id="scheme_btn" @click="getScheme" class="btn img_btn btn-outline-primary">Process</button>
-            <div v-if="scheme_name!=''">
-                <h3>Scheme Name: {{ scheme_name }}</h3>
+            <div v-if="isProcessClicked == true">
+                <h3>Scheme Name: <span v-if="scheme_name!=''"> {{ scheme_name }} </span> <span v-else> Analyzing ... </span> </h3>
 
             </div>
         </div>
@@ -67,7 +67,7 @@
                 scheme_name: "",
                 model: [],
                 loading: false,
-
+                isProcessClicked:false
             }
         },
         mounted() {
@@ -87,6 +87,7 @@
                 this.scheme_name= "";
                 this.model= [];
                 this.loading= false;
+                this.isProcessClicked=false;
             },
             getScheme: function () {
                 this.getSchemeName();
@@ -146,13 +147,13 @@
                 scrollingElement.scrollTop = scrollingElement.scrollHeight;
 
                 this.loading = true;
-                this.isProcessClicked = true;
+                //this.isProcessClicked = true;
                 this.processImage();
             },
             async processImage() {
                 //this.loading = true;
 
-                this.isProcessClicked = true;
+                //this.isProcessClicked = true;
                 await ColorsService.addImage({
                     image: this.image
                 });
@@ -172,20 +173,15 @@
                     var blue = raw_arr[i][2];
 
                     this.color_arr[i] = '#' + this.rgbToHex(red, green, blue).toString(16);
-                    this.debug("this.color_arr[i] " + this.color_arr[i])
                 }
 
                 this.colorString = raw_arr;
 
                 this.loading = false;
             },
-            debug(e) {
-                console.log(e)
-            },
             async getSchemeName() {
 
-                this.debug("this.color_arr.length " + this.color_arr.length)
-
+                this.isProcessClicked = true;
                 const response = await SchemeService.fetchScheme(this.color_arr);
 
                 this.scheme_name = response.data["predicted-name"];

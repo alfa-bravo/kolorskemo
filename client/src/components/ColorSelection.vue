@@ -49,7 +49,7 @@
 
                 <div v-if="processing">
 
-                    <h3 v-if="scheme_name!=''">Scheme Name: {{ scheme_name }}</h3>
+                    <h3>Scheme Name: <span v-if="scheme_name!=''"> {{ scheme_name }} </span> <span v-else> Analyzing ... </span></h3>
                 </div>
 
             </div>
@@ -101,6 +101,7 @@
             },
             processColor: function () {
                 this.processing = true;
+                this.scheme_name='';
                 this.getSchemeName();
             },
             reset: function () {
@@ -110,12 +111,8 @@
                 this.scheme_name = "";
                 this.model = [];
             },
-            debug(e) {
-                console.log(e)
-            },
-            async getSchemeName() {
-                this.debug("this.color_arr.length " + this.color_arr.length)
 
+            async getSchemeName() {
                 const response = await SchemeService.fetchScheme(this.color_arr);
 
                 this.scheme_name = response.data["predicted-name"];
