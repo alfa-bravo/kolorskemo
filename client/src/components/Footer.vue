@@ -31,7 +31,7 @@
                             <a href="#!">Vincent Brubaker-Gianakos</a>
                         </li>
                         <li>
-                            <a href="#!">Stephen Kairos Reyes</a>
+                            <a href="https://www.linkedin.com/in/stephenkairosreyes">Stephen Kairos Reyes</a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/nghi-nguyen/">Nghi Nguyen</a>
