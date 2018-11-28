@@ -31,7 +31,7 @@
             <!--<h3>Scheme Name: {{ scheme_name }}</h3>-->
 
             <div class="row no-gutters" id="pallet">
-                <div v-for="color in color_arr" :style="'background-color:'+ color" class="col color_col">{{color}}
+                <div v-for="color in color_arr" v-bind:style="{ backgroundColor: color, color: setTextColor(color) }" class="col color_col">{{color}}
                 </div>
             </div>
             <button id="scheme_btn" @click="getScheme" class="btn img_btn btn-outline-primary">Analyze</button>
@@ -149,6 +149,22 @@
                 this.loading = true;
                 //this.isProcessClicked = true;
                 this.processImage();
+            },
+            setTextColor: function(color) {
+                var c = color.substring(1);      // strip #
+                var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+                var r = (rgb >> 16) & 0xff;  // extract red
+                var g = (rgb >>  8) & 0xff;  // extract green
+                var b = (rgb >>  0) & 0xff;  // extract blue
+
+                var lum = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+
+                if (lum < 0) {
+                    // pick a different colour
+                    return "#d3c1af";
+                } else {
+                    return "#2c3e50";
+                }
             },
             async processImage() {
                 //this.loading = true;
