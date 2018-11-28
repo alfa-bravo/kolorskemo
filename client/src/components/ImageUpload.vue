@@ -34,7 +34,7 @@
                 <div v-for="color in color_arr" :style="'background-color:'+ color" class="col color_col">{{color}}
                 </div>
             </div>
-            <button id="scheme_btn" @click="getScheme" class="btn img_btn btn-outline-primary">Process</button>
+            <button id="scheme_btn" @click="getScheme" class="btn img_btn btn-outline-primary">Analyze</button>
             <div v-if="isProcessClicked == true">
                 <h3>Scheme Name: <span v-if="scheme_name!=''"> {{ scheme_name }} </span> <span v-else> Analyzing ... </span> </h3>
 

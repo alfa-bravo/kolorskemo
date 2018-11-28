@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <div v-if="color_count==0 || color_count>5" class="row no-gutters">
+        <div v-if="color_count<=0 || color_count>5" class="row no-gutters">
             <div class="col">
                 <label>
                     Number of color:
@@ -42,7 +42,7 @@
                 </div>
                 <div class="row no-gutters">
                     <div class="col">
-                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Process Color
+                        <button id="process_color" @click="processColor" class="btn btn-outline-primary">Analyze
                         </button>
                     </div>
                 </div>
