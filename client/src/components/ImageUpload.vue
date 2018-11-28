@@ -151,7 +151,8 @@
                 this.processImage();
             },
             setTextColor: function(color) {
-                var c = color.substring(1);      // strip #
+                // RGB Code snipped from StackOverflow
+                var c = color.substring(1);  // strip #
                 var rgb = parseInt(c, 16);   // convert rrggbb to decimal
                 var r = (rgb >> 16) & 0xff;  // extract red
                 var g = (rgb >>  8) & 0xff;  // extract green
@@ -159,7 +160,7 @@
 
                 var lum = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
 
-                if (lum < 0) {
+                if (lum < 96) {
                     // pick a different colour
                     return "#d3c1af";
                 } else {
