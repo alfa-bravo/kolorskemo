@@ -1,6 +1,7 @@
 <template>
 
     <div class="container">
+        <h1>Manually Choose Colors</h1>
         <div v-if="color_count<=0 || color_count>5" class="row no-gutters">
             <div class="col">
                 <label>
@@ -143,6 +144,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    h1{
+        font-size: 25px;
+    }
     h3 {
         margin: 40px 0 0;
     }

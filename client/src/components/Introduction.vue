@@ -22,7 +22,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .intro{
-        width: 100%;
+        width: auto;
         height:65vh;
         background-image: url("../assets/color_bg.jpg");
         background-position: center; /* Center the image */
@@ -31,14 +31,14 @@
 
     }
     .intro h1{
-        font-size: 4vw;
+        font-size: 26px;
         font-weight: bold;
         color: #0e5782;
         padding-top: 10%;
         text-align: center;
     }
-    .intro p{
-        font-size: 0.5vw;
+    .intro h2{
+        font-size: 24px;
         font-weight: bold;
         color: #0e5782;
         text-align: center;
@@ -60,7 +60,7 @@
     }
 
     ul li a{
-        font-size: 30px;
+        font-size: 24px;
         color: #ffffff;
         font-weight: bold;
     }
