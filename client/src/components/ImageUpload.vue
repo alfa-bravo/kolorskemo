@@ -8,7 +8,7 @@
             </form>
         </div>
         <div v-else>
-            <img :src="image" height="300px"/>
+            <img :src="image" />
             <div class="row">
 
                 <button id="remove_btn" @click="removeImage" class="btn img_btn btn-outline-danger">Remove image
@@ -214,6 +214,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    h1{
+        font-size: 25px;
+    }
     h3 {
         margin: 40px 0 0;
     }
@@ -287,5 +290,10 @@
         color: white;
     }
 
+    img{
+        min-width: 300px ;
+        max-width: 40vw;
+        min-height: 300px;
+    }
 
 </style>

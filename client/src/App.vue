@@ -13,16 +13,15 @@
                 <div id="choice_selection" v-if="!select" msg="Choice selection">
                     <p>Set Up Your Color Palette</p>
                     <div class="row">
-                        <div class="col-6">
+
                             <button id="upload_btn" type="button" class="btn btn-outline-primary" @click="uploadImg">
                                 Upload an Image
                             </button>
-                        </div>
-                        <div class="col-6">
+
                             <button id="colors_btn" type="button" class="btn btn-outline-primary"
                                     @click="colorchoosing">Manually Choose colors
                             </button>
-                        </div>
+
                     </div>
                 </div>
                 <div v-else>
@@ -115,17 +114,40 @@
     .card-body p.intro {
         text-align: left;
         padding-left: 40px;
-        font-size: 18pt;
+        font-size: 22px;
     }
 
     .card-body p.intro span {
 
-        font-size: 20pt;
+        font-size: 25px;
         font-weight: bold;
     }
 
     #choice_selection p {
-        font-size: 18pt;
+        font-size: 22px;
         padding-top: 20px;
     }
+    .card{
+        padding-right: 10px;
+        padding-left: 10px;
+
+    }
+
+    .row {
+        width: auto;
+        margin: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button{
+        min-width: 200px;
+        margin: 50px;
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+
+
 </style>
