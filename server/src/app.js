@@ -59,7 +59,7 @@ app.post('/api/colors', (req, res) => {
         base64Img = base64Img.split(';base64,').pop();
 
         fs.writeFile('image.png', base64Img, {encoding: 'base64'}, function (err) {
-            console.log('File created!\n');
+            console.log('Image File created!\n');
         });
 
         res.send({
@@ -122,28 +122,45 @@ app.get('/api/scheme', (req, res) => {
         console.log(colors[i]);
     }
 
-    var input = {};
-    input["colors"] = colors;
+    var input = {
+        "colors": []
+    };
+    input.colors = colors;
 
     // Mac Version
-    var input_stdin = JSON.stringify(input).replace(" ", "").replace("\{","\\\{").replace(/"/g, "\\\"");
+    //var input_stdin = JSON.stringify(input).replace(" ", "").replace("\{","\\\{").replace(/"/g, "\\\"");
     
     // Windows Version
     //var input_stdin = JSON.stringify(input).replace(" ", "");
-    console.log(input_stdin);
+    //console.log(input_stdin);
+
+    // Make JSON File Instead, no need to switch between the two
+
+    console.log(JSON.stringify(input));
+
+    fs.writeFile('colors.json', JSON.stringify(input), function (err) {
+        console.log('JSON File created!\n');
+    });
 
     const exec = util.promisify(require('child_process').exec);
 
     (async () => {
 
-        const {stdout, stderr} = await exec('echo '+ input_stdin+ ' | python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5');
+        const {stdout, stderr} = await exec('python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 colors.JSON');
 
         //color_query = JSON.parse(stdout);
         console.log(stdout);
 
         res.send(stdout);
 
-
+        fs.exists('colors.JSON', function (exists) {
+            if (exists) {
+                fs.unlink('colors.JSON', (err) => {
+                    if (err) throw err;
+                    console.log('Temp JSON was deleted');
+                });
+            }
+        });
     })();
 })
 

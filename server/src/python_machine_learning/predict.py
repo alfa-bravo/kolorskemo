@@ -25,12 +25,14 @@ def prep_values(R, max_length):
     X = np.asarray(X)
     return X
 
-with open(sys.argv[1], 'r') as f:
-    categories = json.load(f)
+with open(sys.argv[1], 'r') as f1:
+    categories = json.load(f1)
 
 model = load_model(sys.argv[2])
 
-request = json.load(sys.stdin)
+# request = json.load(sys.stdin) # older code, trying file access instead
+with open(sys.argv[3], 'r') as f2:
+    request = json.load(f2)
 
 colors = request['colors']
 n_colors = len(colors)
