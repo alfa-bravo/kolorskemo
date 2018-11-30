@@ -2,7 +2,7 @@
 
     <div class="container">
         <h1>Manually Choose Colors</h1>
-        <div v-if="color_count<=0 || color_count>5" class="row no-gutters">
+        <!--<div v-if="color_count<=0 || color_count>5" class="row no-gutters">
             <div class="col">
                 <label>
                     Number of color:
@@ -18,12 +18,13 @@
                 </div>
 
             </div>
-        </div>
+        </div>-->
 
-        <div v-else>
-            <div v-if="color_arr.length!=0">
+        <!--<div v-else>-->
+
                 <div class="row no-gutters">
-                    <div v-for="(color, index) in color_arr" class="col color_col">
+                    <div class="col-md-1"></div>
+                    <div v-for="(color, index) in color_arr" class="col col-md-2 color_col">
 
                         <!-- Removed Chromoselector -->
                         <!--<input class="color_picker" v-model="color_arr[index]" :id="'color_picker'+index" type="color" value="{color}">-->
@@ -32,14 +33,17 @@
 
 
                     </div>
+                    <div class="col-md-1"></div>
 
                 </div>
                 <div class="row no-gutters">
-                    <div v-for="(color, index) in color_arr" class="col color_hex">
+                    <div class="col-md-1"></div>
+                    <div v-for="(color, index) in color_arr" class="col col-md-2 color_hex">
 
                         <p>{{color}}</p>
 
                     </div>
+                    <div class="col-md-1"></div>
                 </div>
                 <div class="row no-gutters">
                     <div class="col">
@@ -53,10 +57,9 @@
                     <h3>Scheme Name: <span v-if="scheme_name!=''"> {{ scheme_name }} </span> <span v-else> Analyzing ... </span></h3>
                 </div>
 
-            </div>
 
 
-        </div>
+        <!--</div>-->
 
 
     </div>
@@ -87,8 +90,8 @@
         data() {
             return {
                 processing: false,
-                color_arr: [],
-                color_count: 0,
+                color_arr: ['#000000','#000000','#000000','#000000','#000000'],
+                //color_count: 0,
                 scheme_name: "",
                 model: []
             }
@@ -107,7 +110,7 @@
             },
             reset: function () {
                 this.processing = false;
-                this.color_arr = [];
+                this.color_arr = ['#000000','#000000','#000000','#000000','#000000'];
                 this.color_count = 0;
                 this.scheme_name = "";
                 this.model = [];
@@ -211,4 +214,8 @@
         width: 200px;
     }
 
+
+    .color_hex p{
+        font-size: 16px;
+    }
 </style>
