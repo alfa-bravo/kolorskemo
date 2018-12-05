@@ -146,16 +146,16 @@ app.get('/api/scheme', (req, res) => {
 
     (async () => {
 
-        const {stdout, stderr} = await exec('python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 colors.JSON');
+        const {stdout, stderr} = await exec('python src/python_machine_learning/predict.py src/python_machine_learning/bdic01/categories.json src/python_machine_learning/bdic01/model.h5 colors.json');
 
         //color_query = JSON.parse(stdout);
         console.log(stdout);
 
         res.send(stdout);
 
-        fs.exists('colors.JSON', function (exists) {
+        fs.exists('colors.json', function (exists) {
             if (exists) {
-                fs.unlink('colors.JSON', (err) => {
+                fs.unlink('colors.json', (err) => {
                     if (err) throw err;
                     console.log('Temp JSON was deleted');
                 });
