@@ -8,5 +8,6 @@ RUN pip3 install ./contrib/ekstrakto
 # TODO: use pipenv Pipfile instead of requirements.txt?
 RUN pip3 install -r ./src/python_machine_learning/requirements.txt
 EXPOSE 8081
-RUN alias python="python3" && alias pip="pip3"
+RUN echo -e "alias python=/usr/bin/python3" >> ~/.bashrc && \
+    echo -e "alias pip=/usr/bin/pip3" >> ~/.bashrc
 CMD ["npm", "start"]
