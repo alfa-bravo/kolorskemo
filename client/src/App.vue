@@ -8,7 +8,7 @@
                 <!--<h1>Welcome to Kolorskemo</h1>
                 <img alt="Kolorskemo logo" src="./assets/Kolorskemo-Logo-1.png" width="200" height="200">-->
                 <p class="intro"><span>Instruction:</span>
-                    This tool generate a name for your color palette. You can either upload a picture for color extraction or build your own color palette.
+                    This tool generates a name for a color palette. You can either upload a picture for color extraction or build your own color palette.
                 </p>
                 <div id="choice_selection" v-if="!select" msg="Choice selection">
                     <p>Set Up Your Color Palette</p>
